@@ -4,8 +4,10 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.db1.api.domain.enums.MatchResult;
 import org.db1.api.domain.enums.Move;
+import org.db1.api.domain.gamehistory.dto.GameStartDTO;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 @Entity
 @Table(name = "game_history")
@@ -31,9 +33,17 @@ public class GameHistory {
     private Move playerTwoMove;
 
     @Column(name = "played_in", nullable = false)
-    private LocalDateTime playedIn;
+    private LocalDateTime playedIn = LocalDateTime.now(ZoneId.of("America/Sao_Paulo"));
 
     @Column(name = "match_result", nullable = false)
     @Enumerated(EnumType.STRING)
     private MatchResult matchResult;
+
+    public GameHistory(GameStartDTO dto, MatchResult matchResult) {
+        this.playerOneName = dto.playerOneName();
+        this.playerTwoName = dto.playerTwoName();
+        this.playerOneMove = dto.playerOneMove();
+        this.playerTwoMove = dto.playerTwoMove();
+        this.matchResult = matchResult;
+    }
 }
