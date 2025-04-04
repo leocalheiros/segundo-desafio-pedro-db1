@@ -17,15 +17,15 @@ public class GameController {
     @Autowired
     private GameService gameService;
 
-    @PostMapping
+    @PostMapping("/play")
     public ResponseEntity<GameResultDTO> play(@RequestBody @Valid GameStartDTO dto) {
-        System.out.println(dto);
         var result = gameService.play(dto);
         return ResponseEntity.ok(result);
     }
 
-    @GetMapping
+    @GetMapping("/history")
     public ResponseEntity<List<GameDetailsDTO>> list() {
-        return ResponseEntity.ok(gameService.list());
+        var resultList = gameService.list();
+        return ResponseEntity.ok(resultList);
     }
 }

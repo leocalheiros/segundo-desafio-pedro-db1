@@ -22,16 +22,16 @@ public class GameService {
 
         if (hasPlayer1Won) {
             repository.save(new GameHistory(dto, MatchResult.PLAYER_ONE_WINS));
-            return new GameResultDTO(dto.playerOneName());
+            return new GameResultDTO(dto, MatchResult.PLAYER_ONE_WINS);
         }
 
         if (hasPlayer2Won) {
             repository.save(new GameHistory(dto, MatchResult.PLAYER_TWO_WINS));
-            return new GameResultDTO(dto.playerTwoName());
+            return new GameResultDTO(dto, MatchResult.PLAYER_TWO_WINS);
         }
 
         repository.save(new GameHistory(dto, MatchResult.DRAW));
-        return new GameResultDTO("Empate");
+        return new GameResultDTO(dto,MatchResult.DRAW);
     }
 
     public List<GameDetailsDTO> list() {
