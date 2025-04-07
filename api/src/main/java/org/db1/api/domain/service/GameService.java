@@ -13,8 +13,12 @@ import java.util.List;
 
 @Service
 public class GameService {
+    private final GameHistoryRepository repository;
+
     @Autowired
-    private GameHistoryRepository repository;
+    public GameService(GameHistoryRepository repository) {
+        this.repository = repository;
+    }
 
     public GameResultDTO play(GameStartDTO dto) {
         boolean hasPlayer1Won = dto.playerOneMove().beats(dto.playerTwoMove());

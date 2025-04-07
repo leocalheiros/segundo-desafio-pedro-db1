@@ -14,8 +14,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/game")
 public class GameController {
+    private final GameService gameService;
+
     @Autowired
-    private GameService gameService;
+    public GameController(GameService gameService) {
+        this.gameService = gameService;
+    }
 
     @PostMapping("/play")
     public ResponseEntity<GameResultDTO> play(@RequestBody @Valid GameStartDTO dto) {
