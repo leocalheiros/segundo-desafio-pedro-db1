@@ -7,9 +7,9 @@ import org.db1.api.domain.gamehistory.dto.GameDetailsDTO;
 import org.db1.api.domain.gamehistory.dto.GameResultDTO;
 import org.db1.api.domain.gamehistory.dto.GameStartDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class GameService {
@@ -38,7 +38,7 @@ public class GameService {
         return new GameResultDTO(dto,MatchResult.DRAW);
     }
 
-    public List<GameDetailsDTO> list() {
-        return repository.findAll().stream().map(GameDetailsDTO::new).toList();
+    public Page<GameDetailsDTO> list(Pageable pageable) {
+        return repository.findAllByOrderByPlayedInDesc(pageable).map(GameDetailsDTO::new);
     }
 }
