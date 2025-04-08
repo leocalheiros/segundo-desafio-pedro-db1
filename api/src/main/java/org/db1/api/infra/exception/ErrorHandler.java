@@ -3,6 +3,7 @@ package org.db1.api.infra.exception;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -23,8 +24,8 @@ public class ErrorHandler {
         return ResponseEntity.badRequest().body(errors.stream().map(ValidationErrors::new).toList());
     }
 
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<String> handleEnumError(IllegalArgumentException exception) {
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<String> handleEnumError(HttpMessageNotReadableException exception) {
         log.error("Campo inválido: {}", exception.getMessage());
         return ResponseEntity.badRequest().body(exception.getMessage());
     }
