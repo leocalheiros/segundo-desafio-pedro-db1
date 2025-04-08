@@ -30,26 +30,24 @@ public class GameService {
         boolean hasPlayer2Won = dto.playerTwoMove().beats(dto.playerOneMove());
 
         if (hasPlayer1Won) {
-            GameHistory gameSaved = new GameHistory(dto, MatchResult.PLAYER_ONE_WINS);
-            repository.save(gameSaved);
             log.info("Jogador 1 venceu");
-            log.info(gameSaved);
-            return new GameResultDTO(dto, MatchResult.PLAYER_ONE_WINS);
+            return handleGameResult(dto, MatchResult.PLAYER_ONE_WINS);
         }
 
         if (hasPlayer2Won) {
-            GameHistory gameSaved = new GameHistory(dto, MatchResult.PLAYER_TWO_WINS);
-            repository.save(gameSaved);
             log.info("Jogador 2 venceu");
-            log.info(gameSaved);
-            return new GameResultDTO(dto, MatchResult.PLAYER_TWO_WINS);
+            return handleGameResult(dto, MatchResult.PLAYER_TWO_WINS);
         }
 
-        GameHistory gameSaved = new GameHistory(dto, MatchResult.DRAW);
-        repository.save(gameSaved);
         log.info("Empate");
+        return handleGameResult(dto, MatchResult.DRAW);
+    }
+
+    private GameResultDTO handleGameResult(GameStartDTO dto, MatchResult result) {
+        GameHistory gameSaved = new GameHistory(dto, result);
+        repository.save(gameSaved);
         log.info(gameSaved);
-        return new GameResultDTO(dto,MatchResult.DRAW);
+        return new GameResultDTO(dto, result);
     }
 
     public Page<GameDetailsDTO> list(Pageable pageable) {
